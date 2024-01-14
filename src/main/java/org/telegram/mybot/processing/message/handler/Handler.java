@@ -12,6 +12,6 @@ public abstract class Handler<T> {
         this.sender = sender;
     }
 
-    public abstract void resolve(T msg) throws TelegramApiException;
+    public abstract void resolve(T msg);
 
 }

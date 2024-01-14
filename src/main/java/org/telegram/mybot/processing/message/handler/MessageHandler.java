@@ -37,6 +37,12 @@ public class MessageHandler extends Handler<Message> {
 
 
             } case SPEECH -> {
+                if(msg.hasVoice())
+                    new VoiceHandler(sender).resolve(msg);
+                else {
+                    user.setStatus(Status.NONE);
+                    this.resolve(msg);
+                }
 
             } case NONE -> {
                 new NoneHandler(sender).resolve(msg);
