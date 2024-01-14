@@ -6,7 +6,6 @@ import org.telegram.mybot.processing.user.entity.Status;
 import org.telegram.mybot.processing.user.entity.User;
 import org.telegram.mybot.processing.user.service.UserService;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 public class MessageHandler extends Handler<Message> {
     User user;
@@ -28,16 +27,16 @@ public class MessageHandler extends Handler<Message> {
             case START -> {
                 new StartHandler(sender, user, userService).resolve(msg);
             }
-            case FIND_VACANCIES -> {
+            case VACANCIES -> {
                 break;
             }
-            case HABITS_TRACKER -> {
+            case TRACKER -> {
 
             }
-            case SPEAK_WITH_JPT -> {
+            case JPT -> {
 
 
-            } case RECOGNIZE_SPEECH -> {
+            } case SPEECH -> {
 
             } case NONE -> {
                 new NoneHandler(sender).resolve(msg);

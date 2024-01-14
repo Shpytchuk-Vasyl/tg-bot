@@ -14,13 +14,13 @@ public class KeyBoardButtons {
     public static Status getStatus(String text) {
         List<String> buttons = KeyBoardButtons.getStartsKeyBoardButtons();
         if(buttons.get(0).equals(text)) {
-            return Status.SPEAK_WITH_JPT;
+            return Status.JPT;
         } else if(buttons.get(1).equals(text)) {
-            return Status.RECOGNIZE_SPEECH;
+            return Status.SPEECH;
         } else if(buttons.get(2).equals(text)) {
-            return Status.HABITS_TRACKER;
+            return Status.TRACKER;
         } else if(buttons.get(3).equals(text)) {
-            return Status.FIND_VACANCIES;
+            return Status.VACANCIES;
         } else {
             return Status.NONE;
         }

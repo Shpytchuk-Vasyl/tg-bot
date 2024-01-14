@@ -10,7 +10,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.List;
 
@@ -31,19 +30,22 @@ public class StartHandler extends Handler<Message> {
 
             if(!status.equals(Status.NONE)) {
                 user.setStatus(status);
-                userService.updateUserStatus(user);
-
+                try {
+                    userService.updateUserStatus(user);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 switch (status) {
-                    case SPEAK_WITH_JPT -> {
+                    case JPT -> {
                         sendSpeakMsg(msg);
                     }
-                    case RECOGNIZE_SPEECH -> {
+                    case SPEECH -> {
                         sendRecognizeMsg(msg);
                     }
-                    case FIND_VACANCIES -> {
+                    case VACANCIES -> {
                         sendVacancyMsg(msg);
                     }
-                    case HABITS_TRACKER -> {
+                    case TRACKER -> {
                         sendTrackerMsg(msg);
                     }
                 }

@@ -22,7 +22,7 @@ public class UserService {
     }
 
     public void updateUserStatus(User user) {
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
     }
 
     public void registerUser(User user) {
