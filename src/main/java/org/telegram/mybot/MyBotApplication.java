@@ -21,7 +21,7 @@ public class MyBotApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         try {
             new TelegramBotsApi(DefaultBotSession.class)
                     .registerBot(telegramBot);
