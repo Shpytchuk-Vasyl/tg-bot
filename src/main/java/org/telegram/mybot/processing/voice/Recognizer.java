@@ -5,18 +5,34 @@ import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.speech.v1.*;
 import com.google.protobuf.ByteString;
+import lombok.Setter;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.telegram.mybot.MyBotApplication;
 import org.telegram.telegrambots.meta.api.objects.Voice;
 
 import java.io.*;
 import java.nio.file.*;
 import java.util.List;
+import java.util.Properties;
 
+@Service
+@Setter
 public class Recognizer {
-
-    @Value("${telegram.bot.token}")
     private String token;
+
+    public Recognizer() {
+        Properties prop = new Properties();
+        try {
+            prop.load(MyBotApplication.class.getClassLoader().getResourceAsStream("application.properties"));
+            this.token = prop.getProperty("telegram.bot.token");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private String recognize(String fileName) throws Exception {
             CredentialsProvider credentialsProvider = FixedCredentialsProvider
                     .create(ServiceAccountCredentials.fromStream(new FileInputStream("src/main/resources/service-account.json")));
@@ -29,7 +45,6 @@ public class Recognizer {
 
                 RecognitionConfig config = RecognitionConfig.newBuilder()
                         .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
-                        .setSampleRateHertz(16000)
                         .setLanguageCode("uk-UA")
                         .build();
                 RecognitionAudio audio = RecognitionAudio.newBuilder()

@@ -20,7 +20,7 @@ public class MessageHandler extends Handler<Message> {
     @Override
     public void resolve(Message msg) {
 
-        if(msg.getText().equalsIgnoreCase(KeyBoardButtons.MENU))
+        if(msg.hasText() && msg.getText().equalsIgnoreCase(KeyBoardButtons.MENU))
             user.setStatus(Status.NONE);
 
         switch (user.getStatus()) {
