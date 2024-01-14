@@ -1,9 +1,9 @@
-package org.telegram.mybot.userprocessing.service;
+package org.telegram.mybot.processing.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.telegram.mybot.userprocessing.entity.User;
-import org.telegram.mybot.userprocessing.repository.UserRepository;
+import org.telegram.mybot.processing.user.entity.User;
+import org.telegram.mybot.processing.user.repository.UserRepository;
 
 @Service
 public class UserService {

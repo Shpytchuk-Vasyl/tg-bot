@@ -1,4 +1,4 @@
-package org.telegram.mybot.userprocessing.entity;
+package org.telegram.mybot.processing.user.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
