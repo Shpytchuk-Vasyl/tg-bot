@@ -17,4 +17,15 @@ public class UserService {
                 .build());
     }
 
+    public User findByChatId(Long chatId) {
+        return userRepository.findUserByChatId(chatId);
+    }
+
+    public void updateUserStatus(User user) {
+        userRepository.save(user);
+    }
+
+    public void registerUser(User user) {
+        userRepository.save(user);
+    }
 }

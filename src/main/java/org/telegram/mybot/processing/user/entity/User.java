@@ -23,5 +23,7 @@ public class User {
 
     private Long chatId;
 
+    private  Status status = Status.NONE;
+
 
 }

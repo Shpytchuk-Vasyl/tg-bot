@@ -1,6 +1,5 @@
 package org.telegram.mybot.processing.message;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.mybot.MyBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,8 +14,12 @@ public class Sender {
         this.bot = bot;
     }
 
-    public void sendMessage(SendMessage msg) throws TelegramApiException {
-        bot.execute(msg);
+    public void sendMessage(SendMessage msg) {
+       try{
+            bot.execute(msg);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
 }

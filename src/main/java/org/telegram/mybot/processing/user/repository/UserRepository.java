@@ -7,4 +7,5 @@ import org.telegram.mybot.processing.user.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
+    User findUserByChatId(Long chatId);
 }
