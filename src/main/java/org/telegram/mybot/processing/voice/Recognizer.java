@@ -10,6 +10,7 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.mybot.MyBotApplication;
+import org.telegram.telegrambots.meta.api.objects.VideoNote;
 import org.telegram.telegrambots.meta.api.objects.Voice;
 
 import java.io.*;
@@ -33,6 +34,23 @@ public class Recognizer {
         }
     }
 
+
+    private String analyze(String filePath) {
+        try {
+            String wavFilePath = Converter.convert(filePath);
+
+            String result = recognize(wavFilePath);
+
+            FileUtils.forceDelete(new File(filePath));
+            FileUtils.forceDelete(new File(wavFilePath));
+
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+            return "Error";
+    }
+
     private String recognize(String fileName) throws Exception {
             CredentialsProvider credentialsProvider = FixedCredentialsProvider
                     .create(ServiceAccountCredentials.fromStream(new FileInputStream("src/main/resources/service-account.json")));
@@ -45,8 +63,10 @@ public class Recognizer {
 
                 RecognitionConfig config = RecognitionConfig.newBuilder()
                         .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
+                        .setEnableAutomaticPunctuation(true)
                         .setLanguageCode("uk-UA")
                         .build();
+
                 RecognitionAudio audio = RecognitionAudio.newBuilder()
                         .setContent(audioBytes)
                         .build();
@@ -70,25 +90,11 @@ public class Recognizer {
 
 
     public String analyzeVoice(Voice voice) {
-        try {
-            String filePath = Downloader.downloadVoice(voice, token);
-
-            String wavFilePath = Converter.convert(filePath);
-
-            String result = recognize(wavFilePath);
-
-            FileUtils.forceDelete(new File(filePath));
-            FileUtils.forceDelete(new File(wavFilePath));
-
-            return result;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "Error";
+        return analyze(Downloader.downloadVoice(voice, token));
     }
 
 
-
-
-
+    public String analyzeVideo(VideoNote videoNote) {
+        return analyze(Downloader.downloadVideo(videoNote, token));
+    }
 }

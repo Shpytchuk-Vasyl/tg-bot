@@ -1,16 +1,18 @@
 package org.telegram.mybot.processing.voice;
 
 
+import java.util.concurrent.TimeUnit;
+
 public class Converter {
         public static String convert(String filePath) throws Exception {
             String newFilePath = filePath.substring(0, filePath.lastIndexOf(".")) + ".wav";
 
-            String command = "ffmpeg -i " + filePath + " " + newFilePath;
+            String command = "ffmpeg -i " + filePath + " -vn " + newFilePath;
 
             Process process = new ProcessBuilder(command.split(" ")).start();
 
-            int exitCode = process.waitFor();
-            System.out.println("Exit Code: " + exitCode);
+            boolean exitCode = process.waitFor(120, TimeUnit.SECONDS);
+            System.out.println(exitCode ? "Success " + command : "Fail " + command);
             return newFilePath;
         }
 }

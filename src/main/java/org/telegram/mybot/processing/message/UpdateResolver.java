@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.telegram.mybot.MyBot;
 import org.telegram.mybot.processing.message.handler.MessageHandler;
 import org.telegram.mybot.processing.message.handler.NoneHandler;
-import org.telegram.mybot.processing.message.handler.StartHandler;
 import org.telegram.mybot.processing.user.entity.Status;
 import org.telegram.mybot.processing.user.entity.User;
 import org.telegram.mybot.processing.user.service.UserService;
