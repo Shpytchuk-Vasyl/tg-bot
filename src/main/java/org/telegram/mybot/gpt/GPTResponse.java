@@ -1,14 +1,12 @@
 package org.telegram.mybot.gpt;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Builder
 public class GPTResponse {
     private String id;
@@ -20,6 +18,7 @@ public class GPTResponse {
 }
 
 @Data
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -31,6 +30,7 @@ class Choice {
 }
 
 @Data
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

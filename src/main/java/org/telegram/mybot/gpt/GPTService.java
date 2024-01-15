@@ -11,14 +11,13 @@ public class GPTService {
 
     @Value("${gpt.key}")
     private String apiKey;
-    private static final String apiUrl = "https://api.openai.com/v1/chat/completions";
-    private static final  String model = "gpt-3.5-turbo-1106";
-
-    public GPTService() {}
-
+    private static final String URL = "https://api.openai.com/v1/chat/completions";
+    private static final  String MODEL = "gpt-3.5-turbo-1106";
 
     public String askGPT(String text) {
-        return getChatCPTResponse(text).getChoices().get(0).getMessage().getContent();
+        GPTResponse content = getChatCPTResponse(text);
+        System.out.println(content.toString());
+        return content.getChoices().get(0).getMessage().getContent();
     }
     private GPTResponse getChatCPTResponse(String prompt) {
 
@@ -26,14 +25,14 @@ public class GPTService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "Bearer " + apiKey);
 
-        GPTRequest chatGPTRequest = new GPTRequest();
+        GPTRequest chatGPTRequest = GPTRequest
+                .builder()
+                .model(MODEL)
+                .messages(List.of(new Message("user", prompt)))
+                .build();
 
-        chatGPTRequest.setModel(model);
-        chatGPTRequest.setMessages(List.of(new Message("user", prompt)));
-
-        RestTemplate restTemplate = new RestTemplate();
         HttpEntity<GPTRequest> request = new HttpEntity<>(chatGPTRequest, headers);
 
-        return restTemplate.postForObject(apiUrl, request, GPTResponse.class);
+        return new RestTemplate().postForObject(URL, request, GPTResponse.class);
     }
 }

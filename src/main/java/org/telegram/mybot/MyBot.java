@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.mybot.processing.message.UpdateResolver;
-import org.telegram.mybot.processing.user.service.UserService;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -15,7 +14,7 @@ public class MyBot extends TelegramLongPollingBot {
     @Value("${telegram.bot.name}")
     private String name;
     @Autowired
-    UserService userService;
+    ServiceManager serviceManager;
 
 
     public MyBot(@Value("${telegram.bot.token}") String token) {
@@ -24,7 +23,7 @@ public class MyBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-      new Thread(new UpdateResolver(userService, update, this )).start();
+      new Thread(new UpdateResolver(serviceManager, update, this )).start();
     }
 
     @Override

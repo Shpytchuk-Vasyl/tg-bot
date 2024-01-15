@@ -1,20 +1,19 @@
-package org.telegram.mybot.processing.message.handler;
+package org.telegram.mybot.processing.message;
 
-import org.telegram.mybot.processing.message.KeyBoardButtons;
-import org.telegram.mybot.processing.message.Sender;
+import org.telegram.mybot.ServiceManager;
+import org.telegram.mybot.processing.message.handlers.*;
 import org.telegram.mybot.processing.user.entity.Status;
 import org.telegram.mybot.processing.user.entity.User;
-import org.telegram.mybot.processing.user.service.UserService;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 public class MessageHandler extends Handler<Message> {
-    User user;
-    UserService userService;
+    private final User user;
+    private final ServiceManager serviceManager;
 
-    public MessageHandler(Sender sender, User user, UserService userService) {
+    public MessageHandler(Sender sender, User user, ServiceManager serviceManager) {
         super(sender);
         this.user = user;
-        this.userService = userService;
+        this.serviceManager = serviceManager;
     }
 
     @Override
@@ -25,7 +24,7 @@ public class MessageHandler extends Handler<Message> {
 
         switch (user.getStatus()) {
             case START -> {
-                new StartHandler(sender, user, userService).resolve(msg);
+                new StartHandler(sender, user, serviceManager).resolve(msg);
             }
             case VACANCIES -> {
                 break;
@@ -34,7 +33,7 @@ public class MessageHandler extends Handler<Message> {
 
             }
             case JPT -> {
-
+                new GPTHandler(sender, serviceManager).resolve(msg);
 
             } case SPEECH -> {
                 if(msg.hasVoice())
@@ -49,7 +48,7 @@ public class MessageHandler extends Handler<Message> {
             } case NONE -> {
                 new NoneHandler(sender).resolve(msg);
                 user.setStatus(Status.START);
-                userService.updateUserStatus(user);
+                serviceManager.getUserService().updateUserStatus(user);
             }
         }
     }

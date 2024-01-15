@@ -1,10 +1,11 @@
-package org.telegram.mybot.processing.message.handler;
+package org.telegram.mybot.processing.message.handlers;
 
+import org.telegram.mybot.ServiceManager;
+import org.telegram.mybot.processing.message.Handler;
 import org.telegram.mybot.processing.message.KeyBoardButtons;
 import org.telegram.mybot.processing.message.Sender;
 import org.telegram.mybot.processing.user.entity.Status;
 import org.telegram.mybot.processing.user.entity.User;
-import org.telegram.mybot.processing.user.service.UserService;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -14,13 +15,13 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import java.util.List;
 
 public class StartHandler extends Handler<Message> {
-    User user;
-    UserService userService;
+    private final User user;
+    private final ServiceManager serviceManager;
 
-    public StartHandler(Sender sender, User user, UserService userService) {
+    public StartHandler(Sender sender, User user, ServiceManager serviceManager) {
         super(sender);
         this.user = user;
-        this.userService = userService;
+        this.serviceManager = serviceManager;
     }
 
     @Override
@@ -31,7 +32,7 @@ public class StartHandler extends Handler<Message> {
             if(!status.equals(Status.NONE)) {
                 user.setStatus(status);
                 try {
-                    userService.updateUserStatus(user);
+                    serviceManager.getUserService().updateUserStatus(user);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
