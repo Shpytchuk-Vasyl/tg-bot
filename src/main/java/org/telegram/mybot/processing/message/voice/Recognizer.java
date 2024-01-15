@@ -1,4 +1,4 @@
-package org.telegram.mybot.processing.voice;
+package org.telegram.mybot.processing.message.voice;
 
 import com.google.api.gax.core.CredentialsProvider;
 import com.google.api.gax.core.FixedCredentialsProvider;
@@ -7,7 +7,6 @@ import com.google.cloud.speech.v1.*;
 import com.google.protobuf.ByteString;
 import lombok.Setter;
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.mybot.MyBotApplication;
 import org.telegram.telegrambots.meta.api.objects.VideoNote;

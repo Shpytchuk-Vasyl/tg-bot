@@ -1,4 +1,4 @@
-package org.telegram.mybot.processing.voice;
+package org.telegram.mybot.processing.message.voice;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;

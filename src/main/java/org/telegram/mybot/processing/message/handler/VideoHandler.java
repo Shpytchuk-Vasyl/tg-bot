@@ -1,7 +1,7 @@
 package org.telegram.mybot.processing.message.handler;
 
 import org.telegram.mybot.processing.message.Sender;
-import org.telegram.mybot.processing.voice.Recognizer;
+import org.telegram.mybot.processing.message.voice.Recognizer;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
