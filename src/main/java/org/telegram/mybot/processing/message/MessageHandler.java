@@ -23,19 +23,15 @@ public class MessageHandler extends Handler<Message> {
             user.setStatus(Status.NONE);
 
         switch (user.getStatus()) {
-            case START -> {
-                new StartHandler(sender, user, serviceManager).resolve(msg);
-            }
+            case START -> new StartHandler(sender, user, serviceManager).resolve(msg);
             case VACANCIES -> {
                 break;
             }
             case TRACKER -> {
 
             }
-            case JPT -> {
-                new GPTHandler(sender, serviceManager).resolve(msg);
-
-            } case SPEECH -> {
+            case GPT -> new GPTHandler(sender, serviceManager, user).resolve(msg);
+            case SPEECH -> {
                 if(msg.hasVoice())
                     new VoiceHandler(sender).resolve(msg);
                 else if(msg.hasVideoNote())

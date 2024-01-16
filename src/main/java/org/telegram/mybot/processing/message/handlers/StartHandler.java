@@ -37,18 +37,10 @@ public class StartHandler extends Handler<Message> {
                     e.printStackTrace();
                 }
                 switch (status) {
-                    case JPT -> {
-                        sendSpeakMsg(msg);
-                    }
-                    case SPEECH -> {
-                        sendRecognizeMsg(msg);
-                    }
-                    case VACANCIES -> {
-                        sendVacancyMsg(msg);
-                    }
-                    case TRACKER -> {
-                        sendTrackerMsg(msg);
-                    }
+                    case GPT -> sendGPTMsg(msg);
+                    case SPEECH -> sendRecognizeMsg(msg);
+                    case VACANCIES -> sendVacancyMsg(msg);
+                    case TRACKER -> sendTrackerMsg(msg);
                 }
 
             } else {
@@ -96,8 +88,26 @@ public class StartHandler extends Handler<Message> {
         );
     }
 
-    private void sendSpeakMsg(Message msg) {
-        notAvailable(msg);
+    private void sendGPTMsg(Message msg) {
+        sender.sendMessage(SendMessage
+                .builder()
+                .chatId(msg.getChatId())
+                .replyMarkup(
+                        ReplyKeyboardMarkup.builder()
+                                .keyboardRow(new KeyboardRow(
+                                        List.of(
+                                                new KeyboardButton(KeyBoardButtons.MENU)
+                                        )))
+                                .keyboardRow(new KeyboardRow(
+                                        List.of(
+                                                new KeyboardButton(KeyBoardButtons.CLEAR_GPT_CHAT)
+                                        )))
+                                .resizeKeyboard(true)
+                                .build()
+                )
+                .text("Send your audio file or voice message: ")
+                .build()
+        );
     }
 
     private void notAvailable(Message msg) {

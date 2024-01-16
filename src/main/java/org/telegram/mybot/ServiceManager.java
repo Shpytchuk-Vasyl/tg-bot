@@ -1,8 +1,7 @@
 package org.telegram.mybot;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.mybot.gpt.GPTService;
@@ -17,4 +16,5 @@ public class ServiceManager {
     private UserService userService;
     @Autowired
     private GPTService gptService;
+
 }

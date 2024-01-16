@@ -7,14 +7,15 @@ import java.util.List;
 public class KeyBoardButtons {
 
     public final static String MENU = "/Menu";
+    public final static String CLEAR_GPT_CHAT = "/Clear chat";
     public static List<String> getStartsKeyBoardButtons() {
-        return List.of("/JPT", "/Speech","/Tracker", "/Vacancy");
+        return List.of("/GPT", "/Speech","/Tracker", "/Vacancy");
     }
 
     public static Status getStatus(String text) {
         List<String> buttons = KeyBoardButtons.getStartsKeyBoardButtons();
         if(buttons.get(0).equals(text)) {
-            return Status.JPT;
+            return Status.GPT;
         } else if(buttons.get(1).equals(text)) {
             return Status.SPEECH;
         } else if(buttons.get(2).equals(text)) {
