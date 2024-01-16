@@ -18,7 +18,7 @@ public class MemoryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 512)
+    @Column(length = 4096)
     private String memoryUnit;
 
     @CreationTimestamp

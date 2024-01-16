@@ -105,7 +105,7 @@ public class StartHandler extends Handler<Message> {
                                 .resizeKeyboard(true)
                                 .build()
                 )
-                .text("Send your audio file or voice message: ")
+                .text("Send messages: ")
                 .build()
         );
     }
