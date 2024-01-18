@@ -1,10 +1,6 @@
 package org.telegram.mybot.vacancy;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -18,7 +14,6 @@ import java.util.function.Predicate;
 public class Vacancy {
 
     private String name;
-    private String description;
     private LocalDate date;
 
     public static LocalDate convert(String date) {
@@ -34,9 +29,7 @@ public class Vacancy {
 
     @Override
     public String toString() {
-        return  name + '\n' +
-                description + '\n' +
-                date;
+        return  name + "\n\n" + date;
     }
 
     public static Predicate<Vacancy> filterByName() {

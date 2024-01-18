@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class VacancyParser {
     private static final String URL = "https://jobs.dou.ua/vacancies/?category=";
-
     private static final List<String> categories = List.of(
             ".NET",
             "Java",
@@ -37,16 +37,14 @@ public class VacancyParser {
                    .sorted(Vacancy.sortByDate())
                    .limit(10)
                    .toList();
-
-        } catch (IOException e) {
-            return List.of(new Vacancy("Error !", "", LocalDate.now()));
+        } catch (Exception e) {
+            return List.of(new Vacancy("Error !", LocalDate.now()));
         }
     }
 
     private static Vacancy convert(Element element) {
         return Vacancy.builder()
-                .name(element.selectFirst(".vt").html())
-                .description(element.selectFirst(".sh-info").html())
+                .name(element.selectFirst(".vt").outerHtml().replaceAll("&nbsp;", " "))
                 .date(Vacancy.convert(element.selectFirst(".date").text()))
                 .build();
     }
