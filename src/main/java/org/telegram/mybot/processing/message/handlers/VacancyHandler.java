@@ -20,14 +20,12 @@ public class VacancyHandler extends Handler<Message> {
         if(serviceManager.getVacancyParser().getCategories().contains(msg.getText())) {
             serviceManager.getVacancyParser()
                     .getVacancyHTML(msg.getText())
-                    .forEach(vacancy ->{
-                        sender.sendMessage(SendMessage
-                                .builder()
-                                .chatId(msg.getChatId())
-                                .text(vacancy.toString())
-                                .parseMode("HTML")
-                                .build());
-                    });
+                    .forEach(vacancy -> sender.sendMessage(SendMessage
+                            .builder()
+                            .chatId(msg.getChatId())
+                            .text(vacancy.toString())
+                            .parseMode("HTML")
+                            .build()));
         } else {
             sender.sendMessage(SendMessage
                     .builder()

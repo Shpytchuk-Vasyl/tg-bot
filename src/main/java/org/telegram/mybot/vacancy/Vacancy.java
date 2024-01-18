@@ -33,22 +33,14 @@ public class Vacancy {
     }
 
     public static Predicate<Vacancy> filterByName() {
-        return new Predicate<Vacancy>() {
-            @Override
-            public boolean test(Vacancy vacancy) {
-                String name = vacancy.getName().toLowerCase();
-                return !(name.contains("senior") || name.contains("lead"));
-            }
+        return vacancy -> {
+            String name = vacancy.getName().toLowerCase();
+            return !(name.contains("senior") || name.contains("lead"));
         };
     }
 
     public static Comparator<Vacancy> sortByDate() {
-        return new Comparator<Vacancy>() {
-            @Override
-            public int compare(Vacancy o1, Vacancy o2) {
-                return o1.getDate().compareTo(o2.getDate());
-            }
-        };
+        return Comparator.comparing(Vacancy::getDate);
     }
 
 }
