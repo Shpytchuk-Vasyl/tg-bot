@@ -5,7 +5,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.telegram.mybot.gpt.memory.service.GPTMemoryService;
-import org.telegram.mybot.processing.message.KeyBoardButtons;
+import org.telegram.mybot.processing.message.ResourceForCommands;
 import org.telegram.mybot.processing.user.entity.User;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class GPTService {
     private GPTMemoryService memoryService;
 
     public String askGPT(User user, String text) {
-        if(text.equals(KeyBoardButtons.CLEAR_GPT_CHAT))
+        if(text.equals(ResourceForCommands.CLEAR_GPT_CHAT))
             return clearContext(user);
         String question = memoryService.getContext(user) + text;
         GPTResponse content = getChatCPTResponse(question);

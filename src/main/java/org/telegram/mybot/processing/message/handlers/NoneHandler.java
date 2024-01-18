@@ -1,7 +1,7 @@
 package org.telegram.mybot.processing.message.handlers;
 
 import org.telegram.mybot.processing.message.Handler;
-import org.telegram.mybot.processing.message.KeyBoardButtons;
+import org.telegram.mybot.processing.message.ResourceForCommands;
 import org.telegram.mybot.processing.message.Sender;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -17,7 +17,7 @@ public class NoneHandler extends Handler<Message> {
 
     @Override
     public void resolve(Message msg) {
-        List<String> buttons = KeyBoardButtons.getStartsKeyBoardButtons();
+        List<String> buttons = ResourceForCommands.getStartsKeyBoardButtons();
         sender.sendMessage(SendMessage
                 .builder()
                 .chatId(msg.getChatId())

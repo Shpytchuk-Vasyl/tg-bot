@@ -21,11 +21,11 @@ public class VacancyParser {
             "Python"
     );
 
-    public static List<String> getCategories() {
+    public List<String> getCategories() {
         return new ArrayList<>(categories);
     }
 
-    public static List<Vacancy> getVacancyHTML(String category) {
+    public List<Vacancy> getVacancyHTML(String category) {
 
         try {
            return Jsoup.connect(URL + category)

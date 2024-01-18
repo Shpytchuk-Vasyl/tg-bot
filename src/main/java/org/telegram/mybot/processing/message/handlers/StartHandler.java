@@ -2,10 +2,11 @@ package org.telegram.mybot.processing.message.handlers;
 
 import org.telegram.mybot.ServiceManager;
 import org.telegram.mybot.processing.message.Handler;
-import org.telegram.mybot.processing.message.KeyBoardButtons;
+import org.telegram.mybot.processing.message.ResourceForCommands;
 import org.telegram.mybot.processing.message.Sender;
 import org.telegram.mybot.processing.user.entity.Status;
 import org.telegram.mybot.processing.user.entity.User;
+import org.telegram.mybot.vacancy.VacancyParser;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -27,7 +28,7 @@ public class StartHandler extends Handler<Message> {
     @Override
     public void resolve(Message msg) {
         if (msg.hasText()) {
-            Status status = KeyBoardButtons.getStatus(msg.getText());
+            Status status = ResourceForCommands.getStatus(msg.getText());
 
             if(!status.equals(Status.NONE)) {
                 user.setStatus(status);
@@ -66,7 +67,25 @@ public class StartHandler extends Handler<Message> {
     }
 
     private void sendVacancyMsg(Message msg) {
-        notAvailable(msg);
+        sender.sendMessage(SendMessage
+                .builder()
+                .chatId(msg.getChatId())
+                .text("Please choose category")
+                .replyMarkup(ReplyKeyboardMarkup.builder()
+                        .keyboardRow(new KeyboardRow(
+                                List.of(
+                                        new KeyboardButton(ResourceForCommands.MENU)
+                                )))
+                        .keyboardRow(new KeyboardRow(
+                                new VacancyParser().getCategories()
+                                        .stream()
+                                        .map(KeyboardButton::new)
+                                        .toList()
+                        ))
+                        .resizeKeyboard(true)
+                        .build()
+                )
+                .build());
     }
 
     private void sendRecognizeMsg(Message msg) {
@@ -77,7 +96,7 @@ public class StartHandler extends Handler<Message> {
                         ReplyKeyboardMarkup.builder()
                                 .keyboardRow(new KeyboardRow(
                                         List.of(
-                                                new KeyboardButton(KeyBoardButtons.MENU)
+                                                new KeyboardButton(ResourceForCommands.MENU)
                                         )))
                                 .resizeKeyboard(true)
                                 .oneTimeKeyboard(true)
@@ -96,11 +115,11 @@ public class StartHandler extends Handler<Message> {
                         ReplyKeyboardMarkup.builder()
                                 .keyboardRow(new KeyboardRow(
                                         List.of(
-                                                new KeyboardButton(KeyBoardButtons.MENU)
+                                                new KeyboardButton(ResourceForCommands.MENU)
                                         )))
                                 .keyboardRow(new KeyboardRow(
                                         List.of(
-                                                new KeyboardButton(KeyBoardButtons.CLEAR_GPT_CHAT)
+                                                new KeyboardButton(ResourceForCommands.CLEAR_GPT_CHAT)
                                         )))
                                 .resizeKeyboard(true)
                                 .build()
@@ -118,7 +137,7 @@ public class StartHandler extends Handler<Message> {
                         ReplyKeyboardMarkup.builder()
                                 .keyboardRow(new KeyboardRow(
                                         List.of(
-                                                new KeyboardButton(KeyBoardButtons.MENU)
+                                                new KeyboardButton(ResourceForCommands.MENU)
                                         )))
                                 .resizeKeyboard(true)
                                 .oneTimeKeyboard(true)

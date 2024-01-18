@@ -19,14 +19,12 @@ public class MessageHandler extends Handler<Message> {
     @Override
     public void resolve(Message msg) {
 
-        if(msg.hasText() && msg.getText().equalsIgnoreCase(KeyBoardButtons.MENU))
+        if(msg.hasText() && msg.getText().equalsIgnoreCase(ResourceForCommands.MENU))
             user.setStatus(Status.NONE);
 
         switch (user.getStatus()) {
             case START -> new StartHandler(sender, user, serviceManager).resolve(msg);
-            case VACANCIES -> {
-                break;
-            }
+            case VACANCIES -> new VacancyHandler(sender,serviceManager).resolve(msg);
             case TRACKER -> {
 
             }
