@@ -32,16 +32,17 @@ public class StartHandler extends Handler<Message> {
 
             if(!status.equals(Status.NONE)) {
                 user.setStatus(status);
-                try {
-                    serviceManager.getUserService().updateUserStatus(user);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                serviceManager.getUserService().updateUserStatus(user);
                 switch (status) {
                     case GPT -> sendGPTMsg(msg);
                     case SPEECH -> sendRecognizeMsg(msg);
                     case VACANCIES -> sendVacancyMsg(msg);
-                    case TRACKER -> sendTrackerMsg(msg);
+                    case TRACKER -> {
+                        if(serviceManager.getTrackerService().getUserStatus(user) == null) {
+                            serviceManager.getTrackerService().registerUser(user);
+                        }
+                        sendTrackerMsg(msg);
+                    }
                 }
 
             } else {
@@ -63,7 +64,26 @@ public class StartHandler extends Handler<Message> {
     }
 
     private void sendTrackerMsg(Message msg) {
-        notAvailable(msg);
+        sender.sendMessage(SendMessage
+                .builder()
+                .chatId(msg.getChatId())
+                .text("Please choose category")
+                .replyMarkup(ReplyKeyboardMarkup.builder()
+                        .keyboardRow(new KeyboardRow(
+                                List.of(
+                                        new KeyboardButton(ResourceForCommands.getTrackerStartKeyBoardButtons().get(0)),
+                                        new KeyboardButton(ResourceForCommands.getTrackerStartKeyBoardButtons().get(1))
+                                )
+                        ))
+                        .keyboardRow(new KeyboardRow(
+                                List.of(
+                                        new KeyboardButton(ResourceForCommands.MENU)
+                                )))
+                        .resizeKeyboard(true)
+                        .oneTimeKeyboard(true)
+                        .build()
+                )
+                .build());
     }
 
     private void sendVacancyMsg(Message msg) {
@@ -73,15 +93,15 @@ public class StartHandler extends Handler<Message> {
                 .text("Please choose category")
                 .replyMarkup(ReplyKeyboardMarkup.builder()
                         .keyboardRow(new KeyboardRow(
-                                List.of(
-                                        new KeyboardButton(ResourceForCommands.MENU)
-                                )))
-                        .keyboardRow(new KeyboardRow(
                                 new VacancyParser().getCategories()
                                         .stream()
                                         .map(KeyboardButton::new)
                                         .toList()
                         ))
+                        .keyboardRow(new KeyboardRow(
+                                List.of(
+                                        new KeyboardButton(ResourceForCommands.MENU)
+                                )))
                         .resizeKeyboard(true)
                         .build()
                 )

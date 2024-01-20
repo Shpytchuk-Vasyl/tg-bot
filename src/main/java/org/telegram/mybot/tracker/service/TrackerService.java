@@ -65,5 +65,11 @@ public class TrackerService {
     }
 
 
+    public void registerUser(User user) {
+        userStatusRepository.save(UserStatus.builder()
+                        .trackerStatus(TrackerStatus.NONE)
+                        .user(user)
+                        .build());
+    }
 }
 

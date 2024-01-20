@@ -2,6 +2,7 @@ package org.telegram.mybot.message;
 
 import org.telegram.mybot.ServiceManager;
 import org.telegram.mybot.message.handlers.*;
+import org.telegram.mybot.message.handlers.tracker.TrackerHandler;
 import org.telegram.mybot.user.entity.Status;
 import org.telegram.mybot.user.entity.User;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -25,9 +26,7 @@ public class MessageHandler extends Handler<Message> {
         switch (user.getStatus()) {
             case START -> new StartHandler(sender, user, serviceManager).resolve(msg);
             case VACANCIES -> new VacancyHandler(sender,serviceManager).resolve(msg);
-            case TRACKER -> {
-
-            }
+            case TRACKER -> new TrackerHandler(sender, user, serviceManager).resolve(msg);
             case GPT -> new GPTHandler(sender, serviceManager, user).resolve(msg);
             case SPEECH -> {
                 if(msg.hasVoice())

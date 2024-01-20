@@ -12,6 +12,11 @@ public class ResourceForCommands {
         return List.of("/GPT", "/Speech","/Tracker", "/Vacancy");
     }
 
+    public static List<String> getTrackerStartKeyBoardButtons() {
+        return List.of("Get plans for the day", "Get all palaces in excel");
+    }
+
+
     public static Status getStatus(String text) {
         List<String> buttons = ResourceForCommands.getStartsKeyBoardButtons();
         if(buttons.get(0).equals(text)) {
