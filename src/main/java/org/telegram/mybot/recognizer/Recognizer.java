@@ -1,24 +1,21 @@
-package org.telegram.mybot.processing.message.voice;
+package org.telegram.mybot.recognizer;
 
 import com.google.api.gax.core.CredentialsProvider;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.speech.v1.*;
 import com.google.protobuf.ByteString;
-import lombok.Setter;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.telegram.mybot.MyBotApplication;
 import org.telegram.telegrambots.meta.api.objects.VideoNote;
 import org.telegram.telegrambots.meta.api.objects.Voice;
-
 import java.io.*;
 import java.nio.file.*;
 import java.util.List;
 import java.util.Properties;
 
 @Service
-@Setter
 public class Recognizer {
     private String token;
 
@@ -91,7 +88,6 @@ public class Recognizer {
     public String analyzeVoice(Voice voice) {
         return analyze(Downloader.downloadVoice(voice, token));
     }
-
 
     public String analyzeVideo(VideoNote videoNote) {
         return analyze(Downloader.downloadVideo(videoNote, token));

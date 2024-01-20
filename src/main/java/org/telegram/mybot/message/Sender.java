@@ -1,4 +1,4 @@
-package org.telegram.mybot.processing.message;
+package org.telegram.mybot.message;
 
 import org.springframework.stereotype.Service;
 import org.telegram.mybot.MyBot;

@@ -1,13 +1,13 @@
-package org.telegram.mybot.processing.message;
+package org.telegram.mybot.message;
 
 
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 import org.telegram.mybot.MyBot;
 import org.telegram.mybot.ServiceManager;
-import org.telegram.mybot.processing.message.handlers.NoneHandler;
-import org.telegram.mybot.processing.user.entity.Status;
-import org.telegram.mybot.processing.user.entity.User;
+import org.telegram.mybot.message.handlers.NoneHandler;
+import org.telegram.mybot.user.entity.Status;
+import org.telegram.mybot.user.entity.User;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Service
@@ -22,6 +22,7 @@ public class UpdateResolver implements Runnable {
         this.serviceManager = serviceManager;
         this.update = update;
         this.bot = bot;
+        System.out.println(Thread.currentThread().getName());
     }
 
     public UpdateResolver() {}

@@ -1,12 +1,7 @@
-package org.telegram.mybot.processing.message;
+package org.telegram.mybot.message;
 
-import org.telegram.mybot.processing.user.entity.Status;
-import org.telegram.mybot.vacancy.VacancyParser;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import org.telegram.mybot.user.entity.Status;
 
-import java.security.Key;
 import java.util.List;
 
 public class ResourceForCommands {

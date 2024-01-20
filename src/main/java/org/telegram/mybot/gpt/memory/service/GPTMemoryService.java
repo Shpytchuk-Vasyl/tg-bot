@@ -1,11 +1,12 @@
 package org.telegram.mybot.gpt.memory.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.telegram.mybot.gpt.memory.entity.MemoryEntity;
 import org.telegram.mybot.gpt.memory.repository.MemoryRepository;
-import org.telegram.mybot.processing.user.entity.User;
+import org.telegram.mybot.user.entity.User;
 
 import java.util.stream.Collectors;
 
@@ -30,6 +31,7 @@ public class GPTMemoryService {
 
     }
 
+    @Transactional
     public void clearContext(User user) {
         memoryRepository.deleteAllByUserId(user.getId());
     }

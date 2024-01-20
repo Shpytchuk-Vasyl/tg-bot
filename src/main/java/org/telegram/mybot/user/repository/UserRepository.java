@@ -1,8 +1,8 @@
-package org.telegram.mybot.processing.user.repository;
+package org.telegram.mybot.user.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.telegram.mybot.processing.user.entity.User;
+import org.telegram.mybot.user.entity.User;
 
 
 @Repository

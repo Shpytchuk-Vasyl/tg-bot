@@ -1,4 +1,4 @@
-package org.telegram.mybot.processing.message.voice;
+package org.telegram.mybot.recognizer;
 
 
 import java.util.concurrent.TimeUnit;

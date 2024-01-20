@@ -1,7 +1,4 @@
-package org.telegram.mybot.processing.message;
-
-import org.telegram.mybot.processing.message.Sender;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+package org.telegram.mybot.message;
 
 
 public abstract class Handler<T> {

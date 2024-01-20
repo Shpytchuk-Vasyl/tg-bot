@@ -1,6 +1,5 @@
-package org.telegram.mybot.processing.message.voice;
+package org.telegram.mybot.recognizer;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.telegram.telegrambots.meta.api.objects.VideoNote;
@@ -22,6 +21,7 @@ public class Downloader {
     public static String downloadVideo(VideoNote voice, String token) {
         return download(voice.getFileId(), token);
     }
+
     private static String downloadToFile(String url) throws IOException {
         try (InputStream inputStream = new URL(url).openStream()) {
             Path filePath = Paths.get(".", url.substring(url.lastIndexOf('/') + 1));
@@ -35,9 +35,9 @@ public class Downloader {
             String filePathUrl = "https://api.telegram.org/bot" + token + "/getFile?file_id=" + fileId;
             JSONObject json;
 
-            try (InputStream inputStream = new URL(filePathUrl).openStream()) {
-                json = new JSONObject(IOUtils.toString(inputStream, StandardCharsets.UTF_8));
-            }
+            InputStream inputStream = new URL(filePathUrl).openStream();
+            json = new JSONObject(IOUtils.toString(inputStream, StandardCharsets.UTF_8));
+            inputStream.close();
 
             String filePath = ((JSONObject) json.get("result")).get("file_path").toString();
 

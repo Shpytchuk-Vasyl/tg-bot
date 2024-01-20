@@ -1,4 +1,4 @@
-package org.telegram.mybot.processing.user.entity;
+package org.telegram.mybot.user.entity;
 
 public enum Status {
     NONE,

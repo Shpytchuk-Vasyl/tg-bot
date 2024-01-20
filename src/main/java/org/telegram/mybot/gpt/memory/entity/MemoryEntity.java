@@ -3,7 +3,7 @@ package org.telegram.mybot.gpt.memory.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.telegram.mybot.processing.user.entity.User;
+import org.telegram.mybot.user.entity.User;
 
 import java.time.LocalDateTime;
 

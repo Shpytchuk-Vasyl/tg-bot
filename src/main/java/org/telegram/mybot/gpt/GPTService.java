@@ -5,8 +5,8 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.telegram.mybot.gpt.memory.service.GPTMemoryService;
-import org.telegram.mybot.processing.message.ResourceForCommands;
-import org.telegram.mybot.processing.user.entity.User;
+import org.telegram.mybot.message.ResourceForCommands;
+import org.telegram.mybot.user.entity.User;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
-package org.telegram.mybot.processing.message.handlers;
+package org.telegram.mybot.message.handlers;
 
-import org.telegram.mybot.processing.message.Handler;
-import org.telegram.mybot.processing.message.ResourceForCommands;
-import org.telegram.mybot.processing.message.Sender;
+import org.telegram.mybot.message.Handler;
+import org.telegram.mybot.message.ResourceForCommands;
+import org.telegram.mybot.message.Sender;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
