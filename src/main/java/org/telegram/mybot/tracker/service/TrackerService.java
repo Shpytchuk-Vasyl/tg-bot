@@ -7,8 +7,8 @@ import org.telegram.mybot.tracker.repository.*;
 import org.telegram.mybot.user.entity.User;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TrackerService {
@@ -18,29 +18,50 @@ public class TrackerService {
     @Autowired
     private UserStatusRepository userStatusRepository;
 
-    public List<DailyPlan> getDailyPlan(User user) {
-        return null;
+    public List<DailyPlan> getDailyPlan(User user, LocalDate date) {
+        return dailyPlansRepository.findAllByUserIdAndDate(user.getId(), date);
     }
 
     public UserStatus getUserStatus(User user) {
-        return null;
+        return userStatusRepository.findByUserId(user.getId());
     }
 
-    public void addNewPlan(DailyPlan dailyPlan, User user) {
-
+    public void setUserStatus(UserStatus userStatus) {
+        userStatusRepository.save(userStatus);
     }
 
-    public void completeDailyPlan(DailyPlan dailyPlan) {
-
+    public void addNewPlan(String plan, User user) {
+        dailyPlansRepository.save(
+                DailyPlan.builder()
+                        .user(user)
+                        .record(new PlanRecord(plan,false))
+                        .build()
+        );
     }
 
-    public void deleteDailyPlan(DailyPlan dailyPlan) {
-
+    public void completeDailyPlan(Long dailyPlanId) {
+        dailyPlansRepository.completePlan(dailyPlanId);
     }
 
+    public void deleteDailyPlan(Long dailyPlanId) {
+        dailyPlansRepository.deleteById(dailyPlanId);
+    }
 
-    public Map<LocalDate, PlanRecord> getAllPlans(User user) {
-        return null;
+    public Map<LocalDate, List<PlanRecord>> getAllPlans(User user) {
+        return dailyPlansRepository.findAllByUserId(user.getId())
+                .stream()
+                .collect(Collectors.toMap(
+                        DailyPlan::getDate,
+                        plan -> {
+                           List<PlanRecord> list = new ArrayList<PlanRecord>();
+                           list.add(plan.getRecord());
+                           return list;
+                           },
+                        (planRecords, planRecords2) -> {
+                            planRecords.addAll(planRecords2);
+                            return planRecords;
+                        })
+                );
     }
 
 

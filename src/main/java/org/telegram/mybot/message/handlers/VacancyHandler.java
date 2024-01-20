@@ -2,9 +2,7 @@ package org.telegram.mybot.message.handlers;
 
 
 import org.telegram.mybot.ServiceManager;
-import org.telegram.mybot.message.Handler;
-import org.telegram.mybot.message.Sender;
-import org.telegram.mybot.processing.message.*;
+import org.telegram.mybot.message.*;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 

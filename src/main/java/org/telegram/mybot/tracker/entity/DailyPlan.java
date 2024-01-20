@@ -25,7 +25,7 @@ public class DailyPlan {
     private LocalDate date;
 
     @Embedded
-    private Record record;
+    private PlanRecord record;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(

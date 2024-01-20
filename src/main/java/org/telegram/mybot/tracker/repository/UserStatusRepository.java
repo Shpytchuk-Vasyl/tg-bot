@@ -7,5 +7,5 @@ import org.telegram.mybot.tracker.entity.UserStatus;
 
 @Repository
 public interface UserStatusRepository extends JpaRepository<UserStatus,Long> {
-
+    UserStatus findByUserId(Long userId);
 }

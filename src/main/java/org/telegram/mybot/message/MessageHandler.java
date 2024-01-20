@@ -2,7 +2,6 @@ package org.telegram.mybot.message;
 
 import org.telegram.mybot.ServiceManager;
 import org.telegram.mybot.message.handlers.*;
-import org.telegram.mybot.processing.message.handlers.*;
 import org.telegram.mybot.user.entity.Status;
 import org.telegram.mybot.user.entity.User;
 import org.telegram.telegrambots.meta.api.objects.Message;
