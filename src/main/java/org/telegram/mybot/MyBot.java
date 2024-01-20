@@ -18,19 +18,17 @@ public class MyBot extends TelegramLongPollingBot {
     private String name;
     @Autowired
     private ServiceManager serviceManager;
-    private static final ExecutorService executorService = Executors.newFixedThreadPool(10);;
-    private final String token;
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(10);
+
 
 
     public MyBot(@Value("${telegram.bot.token}") String token) {
         super(token);
-        this.token = token;
     }
 
     @Override
     public void onUpdateReceived(Update update) {
         executorService.execute(new UpdateResolver(serviceManager, update, this));
-        System.out.println(this);
     }
 
     @Override

@@ -22,7 +22,6 @@ public class UpdateResolver implements Runnable {
         this.serviceManager = serviceManager;
         this.update = update;
         this.bot = bot;
-        System.out.println(Thread.currentThread().getName());
     }
 
     public UpdateResolver() {}

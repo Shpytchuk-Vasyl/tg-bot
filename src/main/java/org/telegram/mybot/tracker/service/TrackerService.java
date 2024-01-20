@@ -53,7 +53,7 @@ public class TrackerService {
                 .collect(Collectors.toMap(
                         DailyPlan::getDate,
                         plan -> {
-                           List<PlanRecord> list = new ArrayList<PlanRecord>();
+                           List<PlanRecord> list = new ArrayList<>();
                            list.add(plan.getRecord());
                            return list;
                            },
@@ -71,5 +71,14 @@ public class TrackerService {
                         .user(user)
                         .build());
     }
+
+    public void setUserStatusNone(User user) {
+       UserStatus status = userStatusRepository.findByUserId(user.getId());
+       if(status.getTrackerStatus() != TrackerStatus.NONE) {
+            status.setTrackerStatus(TrackerStatus.NONE);
+            setUserStatus(status);
+       }
+    }
+
 }
 

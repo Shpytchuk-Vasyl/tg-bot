@@ -13,7 +13,7 @@ public class ResourceForCommands {
     }
 
     public static List<String> getTrackerStartKeyBoardButtons() {
-        return List.of("Get plans for the day", "Get all palaces in excel");
+        return List.of("Get plans for the day", "Get all plans in excel");
     }
 
 

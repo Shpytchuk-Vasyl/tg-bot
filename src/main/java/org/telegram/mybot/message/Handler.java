@@ -3,7 +3,7 @@ package org.telegram.mybot.message;
 
 public abstract class Handler<T> {
 
-    public Sender sender;
+    public final Sender  sender;
 
     public Handler(Sender sender) {
         this.sender = sender;

@@ -38,9 +38,10 @@ public class StartHandler extends Handler<Message> {
                     case SPEECH -> sendRecognizeMsg(msg);
                     case VACANCIES -> sendVacancyMsg(msg);
                     case TRACKER -> {
-                        if(serviceManager.getTrackerService().getUserStatus(user) == null) {
+                        if(serviceManager.getTrackerService().getUserStatus(user) == null)
                             serviceManager.getTrackerService().registerUser(user);
-                        }
+                        else
+                            serviceManager.getTrackerService().setUserStatusNone(user);
                         sendTrackerMsg(msg);
                     }
                 }

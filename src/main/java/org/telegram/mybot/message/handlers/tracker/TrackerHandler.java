@@ -83,7 +83,7 @@ public class TrackerHandler extends Handler<Message> {
             sender.sendMessage(SendMessage
                     .builder()
                     .chatId(msg.getChatId())
-                    .text("You aren't on the plans for today. Please, add new plans.")
+                    .text("You haven't the plans for today. Please, add new plans.")
                     .replyMarkup(InlineKeyboardMarkup.builder()
                             .keyboardRow(List.of(InlineKeyboardButton.builder().text(ADD).callbackData(ADD).build()))
                             .keyboardRow(List.of(InlineKeyboardButton.builder().text(BACK).callbackData(BACK).build()))
@@ -96,14 +96,14 @@ public class TrackerHandler extends Handler<Message> {
                     .map(plan -> plan.getRecord().getPlan())
                     .collect(Collectors.joining("\n"));
 
-           List<List<InlineKeyboardButton>> buttons = plans.stream()
-                    .filter(plan -> !plan.getRecord().getIsComplete())
-                    .map(plan -> List.of(InlineKeyboardButton.builder()
-                            .text(plan.getRecord().getPlan())
-                            .callbackData(plan.getId().toString())
-                            .build())
-                    )
-                    .toList();
+           List<List<InlineKeyboardButton>> buttons = (plans.stream()
+                   .filter(plan -> !plan.getRecord().getIsComplete())
+                   .map(plan -> List.of(InlineKeyboardButton.builder()
+                           .text(plan.getRecord().getPlan())
+                           .callbackData(plan.getId().toString())
+                           .build())
+                   )
+                   .toList());
 
             buttons.add(List.of(InlineKeyboardButton.builder().text(ADD).callbackData(ADD).build()));
             buttons.add(List.of(InlineKeyboardButton.builder().text(BACK).callbackData(BACK).build()));
