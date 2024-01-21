@@ -40,6 +40,10 @@ public class UpdateResolver implements Runnable {
                 new MessageHandler(new Sender(bot), user, serviceManager).resolve(update.getMessage());
 
             }
+        } else if(update.hasCallbackQuery()) {
+            User user = serviceManager.getUserService().findByChatId(update.getCallbackQuery().getMessage().getChatId());
+            new CallBackHandler(new Sender(bot), user, serviceManager).resolve(update.getCallbackQuery());
+
         }
     }
 

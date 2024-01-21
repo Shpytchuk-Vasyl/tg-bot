@@ -22,6 +22,9 @@ public class TrackerHandler extends Handler<Message> {
 
     public static final String ADD = "Add new";
     public static final String BACK = "Back";
+    public static final String FORWARD = "Forward";
+    public static final String TODAY = "Today";
+    public static final String BACKWARD = "Backward";
 
 
     public TrackerHandler(Sender sender, User user, ServiceManager serviceManager) {
@@ -46,7 +49,6 @@ public class TrackerHandler extends Handler<Message> {
                 }
             }
             case VIEW -> {}
-            case CREATE -> {}
             case EDIT -> {}
         }
 
@@ -87,6 +89,11 @@ public class TrackerHandler extends Handler<Message> {
                     .replyMarkup(InlineKeyboardMarkup.builder()
                             .keyboardRow(List.of(InlineKeyboardButton.builder().text(ADD).callbackData(ADD).build()))
                             .keyboardRow(List.of(InlineKeyboardButton.builder().text(BACK).callbackData(BACK).build()))
+                            .keyboardRow(List.of(
+                                    InlineKeyboardButton.builder().text(FORWARD).callbackData(FORWARD).build(),
+                                    InlineKeyboardButton.builder().text(TODAY).callbackData(TODAY).build(),
+                                    InlineKeyboardButton.builder().text(BACKWARD).callbackData(BACKWARD).build()
+                            ))
                             .build())
                     .build());
         } else {
