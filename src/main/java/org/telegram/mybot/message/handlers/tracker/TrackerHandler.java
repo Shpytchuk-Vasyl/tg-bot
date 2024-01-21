@@ -21,10 +21,20 @@ public class TrackerHandler extends Handler<Message> {
     private final ServiceManager serviceManager;
 
     public static final String ADD = "Add new";
-    public static final String BACK = "Back";
+    public static final String BACK = ResourceForCommands.MENU;
     public static final String FORWARD = "Forward";
     public static final String TODAY = "Today";
     public static final String BACKWARD = "Backward";
+
+    private static final List<List<InlineKeyboardButton>> buttons = List.of(
+            List.of(InlineKeyboardButton.builder().text(ADD).callbackData(ADD).build()),
+            List.of(InlineKeyboardButton.builder().text(BACK).callbackData(BACK).build()),
+            List.of(
+                    InlineKeyboardButton.builder().text(BACKWARD).callbackData(BACKWARD).build(),
+                    InlineKeyboardButton.builder().text(TODAY).callbackData(TODAY).build(),
+                    InlineKeyboardButton.builder().text(FORWARD).callbackData(FORWARD).build()
+            )
+    );
 
 
     public TrackerHandler(Sender sender, User user, ServiceManager serviceManager) {
@@ -42,7 +52,7 @@ public class TrackerHandler extends Handler<Message> {
                     if(msg.getText().contains("excel")) {
                         sendExcel(msg);
                     } else {
-                        sendDailyPlans(msg);
+                        sender.sendMessage(getDailyPlans(user, LocalDate.now(), serviceManager));
                         status.setTrackerStatus(TrackerStatus.VIEW);
                         serviceManager.getTrackerService().setUserStatus(status);
                     }
@@ -79,52 +89,51 @@ public class TrackerHandler extends Handler<Message> {
                 .build());
     }
 
-    private void sendDailyPlans(Message msg) {
-        List<DailyPlan> plans = serviceManager.getTrackerService().getDailyPlan(user, LocalDate.now());
+    public static SendMessage getDailyPlans(User user, LocalDate date, ServiceManager serviceManager) {
+        List<DailyPlan> plans = serviceManager.getTrackerService().getDailyPlan(user, date);
+
+
         if(plans.isEmpty()) {
-            sender.sendMessage(SendMessage
+            return SendMessage
                     .builder()
-                    .chatId(msg.getChatId())
+                    .chatId(user.getChatId())
                     .text("You haven't the plans for today. Please, add new plans.")
-                    .replyMarkup(InlineKeyboardMarkup.builder()
-                            .keyboardRow(List.of(InlineKeyboardButton.builder().text(ADD).callbackData(ADD).build()))
-                            .keyboardRow(List.of(InlineKeyboardButton.builder().text(BACK).callbackData(BACK).build()))
-                            .keyboardRow(List.of(
-                                    InlineKeyboardButton.builder().text(FORWARD).callbackData(FORWARD).build(),
-                                    InlineKeyboardButton.builder().text(TODAY).callbackData(TODAY).build(),
-                                    InlineKeyboardButton.builder().text(BACKWARD).callbackData(BACKWARD).build()
-                            ))
-                            .build())
-                    .build());
-        } else {
-
-           String completed =  plans.stream()
-                    .filter(plan -> plan.getRecord().getIsComplete())
-                    .map(plan -> plan.getRecord().getPlan())
-                    .collect(Collectors.joining("\n"));
-
-           List<List<InlineKeyboardButton>> buttons = (plans.stream()
-                   .filter(plan -> !plan.getRecord().getIsComplete())
-                   .map(plan -> List.of(InlineKeyboardButton.builder()
-                           .text(plan.getRecord().getPlan())
-                           .callbackData(plan.getId().toString())
-                           .build())
-                   )
-                   .toList());
-
-            buttons.add(List.of(InlineKeyboardButton.builder().text(ADD).callbackData(ADD).build()));
-            buttons.add(List.of(InlineKeyboardButton.builder().text(BACK).callbackData(BACK).build()));
-
-            sender.sendMessage(SendMessage
-                    .builder()
-                    .chatId(msg.getChatId())
-                    .text("Your plans for today\n To complete a plan, click on it\n" + completed)
                     .replyMarkup(new InlineKeyboardMarkup(buttons))
-                    .build());
-
+                    .build();
         }
+
+        String completed = getCompleted(plans);
+
+        List<List<InlineKeyboardButton>> planButtons = getPlanButtons(plans);
+
+        planButtons.addAll(buttons);
+
+        return SendMessage
+                .builder()
+                .chatId(user.getChatId())
+                .text("Your plans for today\n To complete a plan, click on it\n" + completed)
+                .replyMarkup(new InlineKeyboardMarkup(planButtons))
+                .build();
+
     }
 
+    private static List<List<InlineKeyboardButton>> getPlanButtons(List<DailyPlan> plans) {
+        return (plans.stream()
+               .filter(plan -> !plan.getRecord().getIsComplete())
+               .map(plan -> List.of(InlineKeyboardButton.builder()
+                       .text(plan.getRecord().getPlan())
+                       .callbackData(plan.getId().toString())
+                       .build())
+               )
+               .toList());
+    }
+
+    private static String getCompleted(List<DailyPlan> plans) {
+        return plans.stream()
+                 .filter(plan -> plan.getRecord().getIsComplete())
+                 .map(plan -> plan.getRecord().getPlan())
+                 .collect(Collectors.joining("\n"));
+    }
 
 
 }

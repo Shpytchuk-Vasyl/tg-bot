@@ -6,7 +6,6 @@ import org.telegram.mybot.message.Sender;
 import org.telegram.mybot.tracker.entity.TrackerStatus;
 import org.telegram.mybot.user.entity.User;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.Message;
 
 public class TrackerCallBackHandler extends Handler<CallbackQuery> {
     private final User user;
@@ -23,6 +22,17 @@ public class TrackerCallBackHandler extends Handler<CallbackQuery> {
         if(serviceManager.getTrackerService().getUserStatus(user).getTrackerStatus() == TrackerStatus.VIEW) {
             if(callbackQuery.getData().equalsIgnoreCase(TrackerHandler.ADD)) {
                 new EditHandler(sender,user,serviceManager).resolve(callbackQuery);
+            } else if (callbackQuery.getData().equalsIgnoreCase(TrackerHandler.BACK)) {
+
+
+                ///some cod here
+
+            } else if (callbackQuery.getData().equalsIgnoreCase(TrackerHandler.FORWARD)
+                    || callbackQuery.getData().equalsIgnoreCase(TrackerHandler.BACKWARD)
+                    || callbackQuery.getData().equalsIgnoreCase(TrackerHandler.TODAY)) {
+                new NavigationHandler(sender,user,serviceManager).resolve(callbackQuery);
+            } else {
+                new CompleteHandler(sender,user,serviceManager).resolve(callbackQuery);
             }
         }
     }
