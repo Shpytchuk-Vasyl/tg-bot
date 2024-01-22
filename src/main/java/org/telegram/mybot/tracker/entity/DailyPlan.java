@@ -21,7 +21,6 @@ public class DailyPlan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @CurrentTimestamp
     private LocalDate date;
 
     @Embedded

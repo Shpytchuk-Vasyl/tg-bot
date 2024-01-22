@@ -5,6 +5,7 @@ import org.telegram.mybot.message.*;
 import org.telegram.mybot.tracker.entity.*;
 import org.telegram.mybot.user.entity.User;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -23,6 +24,8 @@ public class TrackerHandler extends Handler<Message> {
     private final User user;
     private final ServiceManager serviceManager;
 
+    private final LocalDate localDate;
+
     public static final String ADD = "Add new";
     public static final String BACK = ResourceForCommands.MENU;
     public static final String FORWARD = "Forward";
@@ -40,10 +43,11 @@ public class TrackerHandler extends Handler<Message> {
     );
 
 
-    public TrackerHandler(Sender sender, User user, ServiceManager serviceManager) {
+    public TrackerHandler(Sender sender, User user, ServiceManager serviceManager, LocalDate localDate) {
         super(sender);
         this.user = user;
         this.serviceManager = serviceManager;
+        this.localDate = localDate;
     }
 
     @Override
@@ -55,24 +59,41 @@ public class TrackerHandler extends Handler<Message> {
                     if(msg.getText().contains("excel")) {
                         sendExcel(msg);
                     } else {
-                        sender.sendMessage(getDailyPlans(user, LocalDate.now(), serviceManager));
+                        //clearReplyMarkup();
+                        sender.sendMessage(getDailyPlans(user, localDate, serviceManager));
                         setUserStatusView(status);
                     }
                 }
             }
-            case VIEW -> {}
             case EDIT -> {
 
                 Arrays.stream(msg.getText().split("\n"))
                         .filter(plan -> !plan.isBlank())
-                        .forEach(plan -> serviceManager.getTrackerService().addNewPlan(plan, user));
+                        .forEach(plan -> serviceManager.getTrackerService().addNewPlan(plan, user, localDate));
 
-                sender.sendMessage(getDailyPlans(user, LocalDate.now(), serviceManager));
-                setUserStatusView(status);
+               sender.sendMessage(getDailyPlans(user, localDate, serviceManager));
+               setUserStatusView(status);
             }
         }
 
 
+    }
+
+    private void clearReplyMarkup() {
+        sender.sendMessage(SendMessage.builder()
+                        .chatId(user.getChatId())
+                        .text("Tracker:")
+                        .replyMarkup(ReplyKeyboardMarkup.builder()
+                                .clearKeyboard()
+                                .keyboardRow(new KeyboardRow(
+                                        List.of(
+                                                new KeyboardButton(ResourceForCommands.MENU)
+                                        )))
+                                .resizeKeyboard(true)
+                                .oneTimeKeyboard(true)
+                                .build())
+                        .build()
+        );
     }
 
     private void setUserStatusView(UserStatus status) {

@@ -30,11 +30,12 @@ public class TrackerService {
         userStatusRepository.save(userStatus);
     }
 
-    public void addNewPlan(String plan, User user) {
+    public void addNewPlan(String plan, User user, LocalDate date) {
         dailyPlansRepository.save(
                 DailyPlan.builder()
                         .user(user)
                         .record(new PlanRecord(plan,false))
+                        .date(date)
                         .build()
         );
     }
