@@ -10,6 +10,8 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
+import java.time.format.DateTimeFormatter;
+
 public class EditHandler extends Handler<CallbackQuery> {
     private final User user;
     private final ServiceManager serviceManager;
@@ -30,7 +32,9 @@ public class EditHandler extends Handler<CallbackQuery> {
                 .builder()
                 .chatId(callbackQuery.getMessage().getChatId())
                 .messageId(callbackQuery.getMessage().getMessageId())
-                .text("Example 1: \n" +
+                .text("Date: " + NavigationHandler.getDateFromText(callbackQuery.getMessage().getText())
+                                .format(DateTimeFormatter.ISO_DATE) + "\n" +
+                        "Example 1: \n" +
                         "do something 9:00 - 12:00\n" +
                         "do homework.\n" +
                         "...\n" +
