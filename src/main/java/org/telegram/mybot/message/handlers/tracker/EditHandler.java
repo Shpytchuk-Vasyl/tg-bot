@@ -6,6 +6,7 @@ import org.telegram.mybot.message.Sender;
 import org.telegram.mybot.tracker.entity.TrackerStatus;
 import org.telegram.mybot.tracker.entity.UserStatus;
 import org.telegram.mybot.user.entity.User;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -62,7 +63,13 @@ public class EditHandler extends Handler<CallbackQuery> {
         } else if (userStatus.getTrackerStatus() == TrackerStatus.EDIT){
             userStatus.setTrackerStatus(TrackerStatus.VIEW);
             serviceManager.getTrackerService().setUserStatus(userStatus);
-            new NavigationHandler(sender, user,serviceManager).resolve(callbackQuery);
+            SendMessage msg = TrackerHandler.getDailyPlans(user, date, serviceManager);
+            sender.sendEditMessage(EditMessageText.builder()
+                    .text(msg.getText())
+                    .chatId(msg.getChatId())
+                    .messageId(callbackQuery.getMessage().getMessageId())
+                    .replyMarkup((InlineKeyboardMarkup) msg.getReplyMarkup())
+                    .build());
         }
     }
 }

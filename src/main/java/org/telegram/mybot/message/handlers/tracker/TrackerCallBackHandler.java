@@ -19,18 +19,17 @@ public class TrackerCallBackHandler extends Handler<CallbackQuery> {
 
     @Override
     public void resolve(CallbackQuery callbackQuery) {
-        if(serviceManager.getTrackerService().getUserStatus(user).getTrackerStatus() == TrackerStatus.VIEW) {
-            if(callbackQuery.getData().equalsIgnoreCase(TrackerHandler.ADD)) {
-                new EditHandler(sender,user,serviceManager).resolve(callbackQuery);
-            } else if (callbackQuery.getData().equalsIgnoreCase(TrackerHandler.BACK)) {
-                new ExitHandler(sender,user,serviceManager).resolve(callbackQuery);
-            } else if (callbackQuery.getData().equalsIgnoreCase(TrackerHandler.FORWARD)
-                    || callbackQuery.getData().equalsIgnoreCase(TrackerHandler.BACKWARD)
-                    || callbackQuery.getData().equalsIgnoreCase(TrackerHandler.TODAY)) {
-                new NavigationHandler(sender,user,serviceManager).resolve(callbackQuery);
-            } else {
-                new CompleteHandler(sender,user,serviceManager).resolve(callbackQuery);
+        TrackerStatus status = serviceManager.getTrackerService().getUserStatus(user).getTrackerStatus();
+        if(status == TrackerStatus.VIEW) {
+            switch (callbackQuery.getData()) {
+                case TrackerHandler.ADD -> new EditHandler(sender,user,serviceManager).resolve(callbackQuery);
+                case TrackerHandler.BACK -> new ExitHandler(sender,user,serviceManager).resolve(callbackQuery);
+                case TrackerHandler.FORWARD, TrackerHandler.BACKWARD, TrackerHandler.TODAY
+                        -> new NavigationHandler(sender,user,serviceManager).resolve(callbackQuery);
+                default -> new CompleteHandler(sender,user,serviceManager).resolve(callbackQuery);
             }
+        } else if (status == TrackerStatus.EDIT) {
+            new EditHandler(sender,user,serviceManager).resolve(callbackQuery);
         }
     }
 }
