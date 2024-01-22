@@ -53,7 +53,6 @@ public class TrackerHandler extends Handler<Message> {
                     if(msg.getText().contains("excel")) {
                         sendExcel(msg);
                     } else {
-                        //clearReplyMarkup();
                         sender.sendMessage(getDailyPlans(user, localDate, serviceManager));
                         setUserStatusView(status);
                     }
@@ -64,31 +63,12 @@ public class TrackerHandler extends Handler<Message> {
                 Arrays.stream(msg.getText().split("\n"))
                         .filter(plan -> !(plan.isBlank() || NavigationHandler.pattern.matcher(plan).find()))
                         .forEach(plan -> serviceManager.getTrackerService().addNewPlan(plan, user, localDate));
-
-             /*  sender.sendMessage(getDailyPlans(user, localDate, serviceManager));
-               setUserStatusView(status);*/
             }
         }
 
 
     }
 
-    private void clearReplyMarkup() {
-        sender.sendMessage(SendMessage.builder()
-                        .chatId(user.getChatId())
-                        .text("Tracker:")
-                        .replyMarkup(ReplyKeyboardMarkup.builder()
-                                .clearKeyboard()
-                                .keyboardRow(new KeyboardRow(
-                                        List.of(
-                                                new KeyboardButton(ResourceForCommands.MENU)
-                                        )))
-                                .resizeKeyboard(true)
-                                .oneTimeKeyboard(true)
-                                .build())
-                        .build()
-        );
-    }
 
     private void setUserStatusView(UserStatus status) {
         status.setTrackerStatus(TrackerStatus.VIEW);
