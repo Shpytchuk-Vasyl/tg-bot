@@ -4,7 +4,7 @@ public enum Status {
     NONE,
     START,
     SPEECH,
-    VACANCIES,
+    VACANCY,
     GPT,
     TRACKER,
 }

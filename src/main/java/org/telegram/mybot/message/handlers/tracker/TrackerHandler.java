@@ -13,6 +13,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,16 +55,28 @@ public class TrackerHandler extends Handler<Message> {
                         sendExcel(msg);
                     } else {
                         sender.sendMessage(getDailyPlans(user, LocalDate.now(), serviceManager));
-                        status.setTrackerStatus(TrackerStatus.VIEW);
-                        serviceManager.getTrackerService().setUserStatus(status);
+                        setUserStatusView(status);
                     }
                 }
             }
             case VIEW -> {}
-            case EDIT -> {}
+            case EDIT -> {
+
+                Arrays.stream(msg.getText().split("\n"))
+                        .filter(plan -> !plan.isBlank())
+                        .forEach(plan -> serviceManager.getTrackerService().addNewPlan(plan, user));
+
+                sender.sendMessage(getDailyPlans(user, LocalDate.now(), serviceManager));
+                setUserStatusView(status);
+            }
         }
 
 
+    }
+
+    private void setUserStatusView(UserStatus status) {
+        status.setTrackerStatus(TrackerStatus.VIEW);
+        serviceManager.getTrackerService().setUserStatus(status);
     }
 
 
@@ -97,7 +111,10 @@ public class TrackerHandler extends Handler<Message> {
             return SendMessage
                     .builder()
                     .chatId(user.getChatId())
-                    .text("You haven't the plans for today. Please, add new plans.")
+                    .text("You haven't the plans for " +
+                            date.format(DateTimeFormatter.ISO_DATE) +
+                            ". Please, add new plans.")
+
                     .replyMarkup(new InlineKeyboardMarkup(buttons))
                     .build();
         }
@@ -111,7 +128,10 @@ public class TrackerHandler extends Handler<Message> {
         return SendMessage
                 .builder()
                 .chatId(user.getChatId())
-                .text("Your plans for today\n To complete a plan, click on it\n" + completed)
+                .text("Your plans for "+
+                        date.format(DateTimeFormatter.ISO_DATE)  +
+                        "\n To complete a plan, click on it\n" +
+                        completed)
                 .replyMarkup(new InlineKeyboardMarkup(planButtons))
                 .build();
 

@@ -36,7 +36,7 @@ public class StartHandler extends Handler<Message> {
                 switch (status) {
                     case GPT -> sendGPTMsg(msg);
                     case SPEECH -> sendRecognizeMsg(msg);
-                    case VACANCIES -> sendVacancyMsg(msg);
+                    case VACANCY -> sendVacancyMsg(msg);
                     case TRACKER -> {
                         if(serviceManager.getTrackerService().getUserStatus(user) == null)
                             serviceManager.getTrackerService().registerUser(user);

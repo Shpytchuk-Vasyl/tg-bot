@@ -25,7 +25,7 @@ public class MessageHandler extends Handler<Message> {
 
         switch (user.getStatus()) {
             case START -> new StartHandler(sender, user, serviceManager).resolve(msg);
-            case VACANCIES -> new VacancyHandler(sender,serviceManager).resolve(msg);
+            case VACANCY -> new VacancyHandler(sender,serviceManager).resolve(msg);
             case TRACKER -> new TrackerHandler(sender, user, serviceManager).resolve(msg);
             case GPT -> new GPTHandler(sender, serviceManager, user).resolve(msg);
             case SPEECH -> {

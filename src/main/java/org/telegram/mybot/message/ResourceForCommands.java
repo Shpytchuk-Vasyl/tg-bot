@@ -18,7 +18,7 @@ public class ResourceForCommands {
 
 
     public static Status getStatus(String text) {
-        List<String> buttons = ResourceForCommands.getStartsKeyBoardButtons();
+        List<String> buttons = getStartsKeyBoardButtons();
         if(buttons.get(0).equals(text)) {
             return Status.GPT;
         } else if(buttons.get(1).equals(text)) {
@@ -26,7 +26,7 @@ public class ResourceForCommands {
         } else if(buttons.get(2).equals(text)) {
             return Status.TRACKER;
         } else if(buttons.get(3).equals(text)) {
-            return Status.VACANCIES;
+            return Status.VACANCY;
         } else {
             return Status.NONE;
         }
