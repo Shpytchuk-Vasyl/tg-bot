@@ -1,13 +1,9 @@
 package org.telegram.mybot.message.handlers.tracker;
 
 import org.telegram.mybot.ServiceManager;
-import org.telegram.mybot.message.Handler;
-import org.telegram.mybot.message.Sender;
+import org.telegram.mybot.message.*;
 import org.telegram.mybot.message.handlers.NoneHandler;
-import org.telegram.mybot.tracker.entity.TrackerStatus;
-import org.telegram.mybot.tracker.entity.UserStatus;
-import org.telegram.mybot.user.entity.Status;
-import org.telegram.mybot.user.entity.User;
+import org.telegram.mybot.user.entity.*;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;

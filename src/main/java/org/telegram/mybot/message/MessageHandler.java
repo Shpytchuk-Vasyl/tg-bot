@@ -2,14 +2,10 @@ package org.telegram.mybot.message;
 
 import org.telegram.mybot.ServiceManager;
 import org.telegram.mybot.message.handlers.*;
-import org.telegram.mybot.message.handlers.tracker.EditHandler;
-import org.telegram.mybot.message.handlers.tracker.NavigationHandler;
-import org.telegram.mybot.message.handlers.tracker.TrackerHandler;
-import org.telegram.mybot.user.entity.Status;
-import org.telegram.mybot.user.entity.User;
+import org.telegram.mybot.message.handlers.tracker.*;
+import org.telegram.mybot.user.entity.*;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import java.time.LocalDate;
 
 public class MessageHandler extends Handler<Message> {
     private final User user;

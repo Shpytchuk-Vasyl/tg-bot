@@ -5,19 +5,13 @@ import org.telegram.mybot.message.*;
 import org.telegram.mybot.tracker.entity.*;
 import org.telegram.mybot.user.entity.User;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.*;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TrackerHandler extends Handler<Message> {
@@ -152,7 +146,7 @@ public class TrackerHandler extends Handler<Message> {
                 .chatId(user.getChatId())
                 .text("Your plans for "+
                         date.format(DateTimeFormatter.ISO_DATE)  +
-                        "\nTo complete a plan, click on it\n" +
+                        "\nTo complete a plan, click on it\n\n" +
                         completed)
                 .replyMarkup(new InlineKeyboardMarkup(planButtons))
                 .build();

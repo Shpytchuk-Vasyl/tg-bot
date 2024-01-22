@@ -1,9 +1,7 @@
 package org.telegram.mybot.message.handlers.tracker;
 
 import org.telegram.mybot.ServiceManager;
-import org.telegram.mybot.message.Handler;
-import org.telegram.mybot.message.Sender;
-import org.telegram.mybot.tracker.entity.TrackerStatus;
+import org.telegram.mybot.message.*;
 import org.telegram.mybot.user.entity.User;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;

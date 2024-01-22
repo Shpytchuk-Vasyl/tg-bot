@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.telegram.mybot.user.entity.User;
 
