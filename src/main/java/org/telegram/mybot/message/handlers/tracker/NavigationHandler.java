@@ -5,8 +5,11 @@ import org.telegram.mybot.message.Handler;
 import org.telegram.mybot.message.Sender;
 import org.telegram.mybot.tracker.entity.TrackerStatus;
 import org.telegram.mybot.user.entity.User;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,6 +20,7 @@ import java.util.regex.Pattern;
 public class NavigationHandler extends Handler<CallbackQuery> {
     private final User user;
     private final ServiceManager serviceManager;
+    public static Pattern pattern = Pattern.compile("\\d{2,4}-\\d{1,2}-\\d{1,2}");
 
     public NavigationHandler(Sender sender, User user, ServiceManager serviceManager) {
         super(sender);
@@ -27,7 +31,13 @@ public class NavigationHandler extends Handler<CallbackQuery> {
     @Override
     public void resolve(CallbackQuery callbackQuery) {
         LocalDate date = getNextDateFromCallback(callbackQuery);
-        sender.sendMessage(TrackerHandler.getDailyPlans(user, date, serviceManager));
+        SendMessage msg = TrackerHandler.getDailyPlans(user, date, serviceManager);
+        sender.sendEditMessage(EditMessageText.builder()
+                        .text(msg.getText())
+                        .chatId(msg.getChatId())
+                        .messageId(callbackQuery.getMessage().getMessageId())
+                        .replyMarkup((InlineKeyboardMarkup) msg.getReplyMarkup())
+                        .build());
     }
 
     private LocalDate getNextDateFromCallback(CallbackQuery callbackQuery) {
@@ -42,7 +52,7 @@ public class NavigationHandler extends Handler<CallbackQuery> {
     }
 
     public static LocalDate getDateFromText(String text) {
-        Matcher matcher = Pattern.compile("\\d{2,4}-\\d{1,2}-\\d{1,2}").matcher(text);
+        Matcher matcher = pattern.matcher(text);
         return matcher.find()
                 ? LocalDate.parse(text.substring(matcher.start(), matcher.end()))
                 : LocalDate.now();

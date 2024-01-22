@@ -68,11 +68,11 @@ public class TrackerHandler extends Handler<Message> {
             case EDIT -> {
 
                 Arrays.stream(msg.getText().split("\n"))
-                        .filter(plan -> !plan.isBlank())
+                        .filter(plan -> !(plan.isBlank() || NavigationHandler.pattern.matcher(plan).find()))
                         .forEach(plan -> serviceManager.getTrackerService().addNewPlan(plan, user, localDate));
 
-               sender.sendMessage(getDailyPlans(user, localDate, serviceManager));
-               setUserStatusView(status);
+             /*  sender.sendMessage(getDailyPlans(user, localDate, serviceManager));
+               setUserStatusView(status);*/
             }
         }
 
@@ -135,7 +135,7 @@ public class TrackerHandler extends Handler<Message> {
                     .chatId(user.getChatId())
                     .text("You haven't the plans for " +
                             date.format(DateTimeFormatter.ISO_DATE) +
-                            ". Please, add new plans.")
+                            ".\nPlease, add new plans.")
 
                     .replyMarkup(new InlineKeyboardMarkup(buttons))
                     .build();
@@ -152,7 +152,7 @@ public class TrackerHandler extends Handler<Message> {
                 .chatId(user.getChatId())
                 .text("Your plans for "+
                         date.format(DateTimeFormatter.ISO_DATE)  +
-                        "\n To complete a plan, click on it\n" +
+                        "\nTo complete a plan, click on it\n" +
                         completed)
                 .replyMarkup(new InlineKeyboardMarkup(planButtons))
                 .build();
