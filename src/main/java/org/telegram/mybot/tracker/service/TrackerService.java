@@ -1,5 +1,6 @@
 package org.telegram.mybot.tracker.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.mybot.tracker.entity.*;
@@ -40,10 +41,12 @@ public class TrackerService {
         );
     }
 
+    @Transactional
     public void completeDailyPlan(Long dailyPlanId) {
         dailyPlansRepository.completePlan(dailyPlanId);
     }
 
+    @Transactional
     public void deleteDailyPlan(Long dailyPlanId) {
         dailyPlansRepository.deleteById(dailyPlanId);
     }
