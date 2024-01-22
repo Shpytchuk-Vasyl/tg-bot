@@ -23,10 +23,7 @@ public class TrackerCallBackHandler extends Handler<CallbackQuery> {
             if(callbackQuery.getData().equalsIgnoreCase(TrackerHandler.ADD)) {
                 new EditHandler(sender,user,serviceManager).resolve(callbackQuery);
             } else if (callbackQuery.getData().equalsIgnoreCase(TrackerHandler.BACK)) {
-
-
-                ///some cod here
-
+                new ExitHandler(sender,user,serviceManager).resolve(callbackQuery);
             } else if (callbackQuery.getData().equalsIgnoreCase(TrackerHandler.FORWARD)
                     || callbackQuery.getData().equalsIgnoreCase(TrackerHandler.BACKWARD)
                     || callbackQuery.getData().equalsIgnoreCase(TrackerHandler.TODAY)) {

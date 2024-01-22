@@ -30,13 +30,13 @@ public class TrackerHandler extends Handler<Message> {
     public static final String BACKWARD = "Backward";
 
     private static final List<List<InlineKeyboardButton>> buttons = List.of(
-            List.of(InlineKeyboardButton.builder().text(ADD).callbackData(ADD).build()),
-            List.of(InlineKeyboardButton.builder().text(BACK).callbackData(BACK).build()),
             List.of(
                     InlineKeyboardButton.builder().text(BACKWARD).callbackData(BACKWARD).build(),
                     InlineKeyboardButton.builder().text(TODAY).callbackData(TODAY).build(),
                     InlineKeyboardButton.builder().text(FORWARD).callbackData(FORWARD).build()
-            )
+            ),
+            List.of(InlineKeyboardButton.builder().text(ADD).callbackData(ADD).build()),
+            List.of(InlineKeyboardButton.builder().text(BACK).callbackData(BACK).build())
     );
 
 
