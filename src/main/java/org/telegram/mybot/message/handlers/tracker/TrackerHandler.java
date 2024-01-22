@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -123,7 +124,7 @@ public class TrackerHandler extends Handler<Message> {
 
         List<List<InlineKeyboardButton>> planButtons = getPlanButtons(plans);
 
-        planButtons.addAll(buttons);
+        planButtons.addAll(new ArrayList<>(buttons));
 
         return SendMessage
                 .builder()
@@ -145,7 +146,7 @@ public class TrackerHandler extends Handler<Message> {
                        .callbackData(plan.getId().toString())
                        .build())
                )
-               .toList());
+               .collect(Collectors.toCollection(ArrayList::new)));
     }
 
     private static String getCompleted(List<DailyPlan> plans) {
