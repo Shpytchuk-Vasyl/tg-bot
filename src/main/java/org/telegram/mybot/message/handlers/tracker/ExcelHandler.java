@@ -90,6 +90,7 @@ public class ExcelHandler extends Handler<Message> {
     }
 
     private void createLineChart(XSSFSheet sheet, int size) {
+        if(size == 0 ) return;
         XSSFDrawing drawing = sheet.createDrawingPatriarch();
         XSSFClientAnchor anchor = drawing.createAnchor(0, 0, 0, 0, 0, sheet.getLastRowNum() + 2, 30, sheet.getLastRowNum() + 12);
         XSSFChart chart =  drawing.createChart(anchor);
