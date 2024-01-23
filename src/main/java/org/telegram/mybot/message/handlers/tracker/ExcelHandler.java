@@ -1,9 +1,9 @@
 package org.telegram.mybot.message.handlers.tracker;
 
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xddf.usermodel.chart.*;
+import org.apache.poi.xssf.usermodel.*;
 import org.telegram.mybot.ServiceManager;
 import org.telegram.mybot.message.Handler;
 import org.telegram.mybot.message.Sender;
@@ -42,8 +42,10 @@ public class ExcelHandler extends Handler<Message> {
                 .build()
         );
         try {
-            Files.delete(Paths.get(name));
-        } catch (Exception ignore){}
+           Files.deleteIfExists(Paths.get(name));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private InputFile getExel(Map<LocalDate, List<PlanRecord>> allPlans, String name) {
@@ -76,12 +78,34 @@ public class ExcelHandler extends Handler<Message> {
                 sheet.autoSizeColumn(i);
             }
 
+            createLineChart(sheet, list.size());
+
             try (FileOutputStream fileOut = new FileOutputStream(name)) {
                 wb.write(fileOut);
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return new InputFile(new File(name));
+    }
+
+    private void createLineChart(XSSFSheet sheet, int size) {
+        XSSFDrawing drawing = sheet.createDrawingPatriarch();
+        XSSFClientAnchor anchor = drawing.createAnchor(0, 0, 0, 0, 0, sheet.getLastRowNum() + 2, 30, sheet.getLastRowNum() + 12);
+        XSSFChart chart =  drawing.createChart(anchor);
+
+        XDDFCategoryAxis categoryAxis = chart.createCategoryAxis(AxisPosition.BOTTOM);
+        categoryAxis.setVisible(true);
+        XDDFValueAxis valueAxis = chart.createValueAxis(AxisPosition.LEFT);
+        valueAxis.setMinimum(0);
+        XDDFLineChartData data = (XDDFLineChartData) chart.createData( ChartTypes.LINE, categoryAxis, valueAxis);
+
+        XDDFDataSource<String> xs = XDDFDataSourcesFactory.fromStringCellRange(sheet, new CellRangeAddress(0, 0, 0, size-1));
+        XDDFNumericalDataSource<Double> ys = XDDFDataSourcesFactory.fromNumericCellRange(sheet, new CellRangeAddress(1, 1, 0, size-1));
+
+        data.addSeries(xs, ys);
+        chart.plot(data);
+
     }
 
     private void fillPlans(XSSFSheet sheet, XSSFCellStyle completeStyle, XSSFCellStyle inCompleteStyle, List<LocalDate> dateList, Map<LocalDate, List<PlanRecord>> allPlans, Integer maxRows) {
