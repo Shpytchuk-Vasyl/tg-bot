@@ -51,7 +51,7 @@ public class TrackerHandler extends Handler<Message> {
             case NONE -> {
                 if(ResourceForCommands.getTrackerStartKeyBoardButtons().contains(msg.getText())) {
                     if(msg.getText().contains("excel")) {
-                        sendExcel(msg);
+                        new ExcelHandler(sender,user, serviceManager).resolve(msg);
                     } else {
                         sender.sendMessage(getDailyPlans(user, localDate, serviceManager));
                         setUserStatusView(status);
@@ -75,29 +75,6 @@ public class TrackerHandler extends Handler<Message> {
         serviceManager.getTrackerService().setUserStatus(status);
     }
 
-
-    private void sendExcel(Message msg) {
-        sender.sendMessage(SendMessage
-                .builder()
-                .chatId(msg.getChatId())
-                .text("Please choose available function :")
-                .replyMarkup(ReplyKeyboardMarkup.builder()
-                        .keyboardRow(new KeyboardRow(
-                                List.of(
-                                        new KeyboardButton(ResourceForCommands.getTrackerStartKeyBoardButtons().get(0)),
-                                        new KeyboardButton(ResourceForCommands.getTrackerStartKeyBoardButtons().get(1))
-                                )
-                        ))
-                        .keyboardRow(new KeyboardRow(
-                                List.of(
-                                        new KeyboardButton(ResourceForCommands.MENU)
-                                )))
-                        .resizeKeyboard(true)
-                        .oneTimeKeyboard(true)
-                        .build()
-                )
-                .build());
-    }
 
     public static SendMessage getDailyPlans(User user, LocalDate date, ServiceManager serviceManager) {
         List<DailyPlan> plans = serviceManager.getTrackerService().getDailyPlan(user, date);
