@@ -26,7 +26,7 @@ In the project, I used the following additional libraries:
 - [Jsoup](https://jsoup.org/)
 - [Apache POI](https://poi.apache.org/components/spreadsheet/index.html)
 - [TelegramBots](https://github.com/rubenlagus/TelegramBots)
-- [google-cloud-speech](https://cloud.google.com/speech-to-text/docs/speech-to-text-client-libraries#client-libraries-resources-java)
+- [Google speech](https://cloud.google.com/speech-to-text/docs/speech-to-text-client-libraries#client-libraries-resources-java)
 
 
 
